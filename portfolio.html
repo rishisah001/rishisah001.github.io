@@ -1,10 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        header {
+            padding: 20px;
+            background: linear-gradient(to right, #00ffff, #8000ff);
+            animation: fadeIn 2s ease-in-out;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background: #222;
+        }
+        nav ul li {
+            margin: 10px;
+        }
+        nav ul li a {
+            color: #00ffff;
+            text-decoration: none;
+        }
+        section {
+            padding: 50px 20px;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .social-icons a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s;
+        }
+        .social-icons img:hover {
+            transform: scale(1.2);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to My Portfolio!</h1>
-    <p>This is my personal website.</p>
+    <header>
+        <h1>Rishikesh Sah</h1>
+        <p>Continual learner | Aspiring Engineer with a deep interest in Electronics, IoT, and AI | Experienced Smart Home Technologist proficient in Electronics, Electrical Systems, and Arduino.</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <section id="about">
+        <h2>About Me</h2>
+        <p>[Placeholder for your introduction]</p>
+    </section>
+    
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:rishisah250@gmail.com">rishisah250@gmail.com</a></p>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/rishikesh.iot" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
+            <a href="https://www.facebook.com/rishikesh.ai.ml" target="_blank"><img src="facebook-icon.png" alt="Facebook"></a>
+            <a href="https://www.tiktok.com/@rishikesh.iot" target="_blank"><img src="tiktok-icon.png" alt="TikTok"></a>
+            <a href="https://x.com/rishikesh_IoT" target="_blank"><img src="X-icon.png" alt="X-icon"></a>
+        </div>
+    </section>
 </body>
 </html>
