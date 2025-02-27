@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dripping Faucet: Investigating Inter-Drop Patterns</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            padding: 20px;
+            background: linear-gradient(to right, #00ffff, #8000ff);
+            text-align: center;
+        }
+        header h1 { font-size: 2.5rem; color: #00ffff; }
+        header p { font-size: 1.2rem; color: #fff; }
+        .content {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h2 { color: #00ffff; }
+        h3 { color: #8000ff; }
+        img { max-width: 100%; border-radius: 10px; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 10px; border: 1px solid #444; }
+        th { background-color: #8000ff; color: #fff; }
+        td { background-color: #1a1a1a; }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #222;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dripping Faucet: Investigating Inter-Drop Patterns</h1>
+        <p>Exploring the physics of water droplets and their chaotic behavior.</p>
+    </header>
+    <section class="content">
+        <h2>About Me</h2>
+        <p>I am Rishikesh Sah, a high school student at Viswa Niketan Secondary School. This project delves into the fascinating fluid dynamics of a dripping faucet.</p>
+
+        <h2>Introduction</h2>
+        <p>The dripping faucet is a common yet complex phenomenon governed by principles of fluid dynamics. The timing between drops can be predictable or chaotic, influenced by surface tension, viscosity, gravity, and other factors. This study examines the effects of these variables on drop formation.</p>
+        
+        <h2>Experimental Setup</h2>
+        <p>The setup includes a piezo-based sensor to detect drop impact, an Arduino for timestamp recording, and Python for data analysis and visualization. The equipment used includes:</p>
+        <ul>
+            <li>Piezoelectric Disc</li>
+            <li>Arduino Uno R3</li>
+            <li>Saline Drip Tube</li>
+            <li>Water Container</li>
+            <li>Computer for data visualization</li>
+        </ul>
+        
+        <h2>Key Physics Principles</h2>
+        <ul>
+            <li><strong>Surface Tension:</strong> Water molecules attract each other due to cohesive forces, forming droplets. When the force of gravity overcomes surface tension, a drop detaches.</li>
+            <li><strong>Gravity:</strong> Pulls water downward, influencing drop size and frequency.</li>
+            <li><strong>Viscosity:</strong> Determines how easily water flows; higher viscosity delays drop formation.</li>
+            <li><strong>Flow Rate & Pressure:</strong> Higher pressure leads to faster drop formation.</li>
+            <li><strong>Chaos Theory:</strong> Small variations in conditions can cause unpredictable changes in drop timing.</li>
+        </ul>
+
+        <h2>Observations & Results</h2>
+        <h3>Effect of Salt Concentration</h3>
+        <p>Adding salt increases water density, reducing surface tension and making drops detach faster. Higher salinity weakens cohesive forces, accelerating droplet formation.</p>
+        <img src="images/normal-water.png" alt="Normal Water Graph">
+        <img src="images/slightly-salted.png" alt="Slightly Salted Water Graph">
+        <img src="images/highly-salted.png" alt="Highly Salted Water Graph">
+        
+        <h3>Temperature Impact</h3>
+        <p>Higher temperatures reduce water’s viscosity and surface tension, allowing faster and smaller drops. Heat weakens hydrogen bonds, making drop detachment easier.</p>
+        <img src="images/cold-water.png" alt="Cold Water Graph">
+        <img src="images/lukewarm-water.png" alt="Lukewarm Water Graph">
+        <img src="images/hot-water.png" alt="Hot Water Graph">
+        
+        <h3>Soap Solution</h3>
+        <p>Soap molecules break surface tension by interfering with water's cohesive forces. Instead of discrete droplets, water flows in a continuous stream.</p>
+        <img src="images/laminar.png" alt="Water level Graph">
+
+        <h3>Effect of Water Level</h3>
+        <p>Higher water levels exert more pressure, forcing drops to form faster. As the water level drops, pressure decreases, lengthening inter-drop time.</p>
+        <img src="images/water-level.png" alt="Water level Graph">
+        
+        <h3>Chaotic vs Predictable Behavior</h3>
+        <p>At low flow rates, drops form at steady intervals. Increasing flow rate causes slight variations, and at a certain point, the system becomes chaotic, with unpredictable drop intervals.</p>
+        <img src="images/non-chaotic.png" alt="Non-Chaotic Flow Graph">
+        <img src="images/chaotic.png" alt="Chaotic Flow Graph">
+
+        <h2>Conclusion</h2>
+        <p>This experiment demonstrates how changes in fluid properties significantly affect drop formation. Understanding these dynamics has applications in medical IV drips, fluid engineering, and chaos theory research.</p>
+    </section>
+    <footer>
+        <p>Contact: rishisah250@gmail.com | +977-9810763098</p>
+        <p>&copy; 2025 Rishikesh Sah. All rights reserved.</p>
+    </footer>
+</body>
+</html>
