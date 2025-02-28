@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino RGB LED Control Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            padding: 20px;
+            background: linear-gradient(to right, #00ffff, #8000ff);
+            text-align: center;
+        }
+        header h1 { font-size: 2.5rem; color: #00ffff; }
+        header p { font-size: 1.2rem; color: #fff; }
+        .content {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h2 { color: #00ffff; }
+        h3 { color: #8000ff; }
+        img { max-width: 100%; border-radius: 10px; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 10px; border: 1px solid #444; }
+        th { background-color: #8000ff; color: #fff; }
+        td { background-color: #1a1a1a; }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #222;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+      <h1>Arduino RGB LED Control Project</h1>
+      <p>This project demonstrates how to control an RGB LED using three buttons with an Arduino. One button toggles an auto-cycling mode, while the other two buttons allow manual color selection.</p>
+  
+      <h2>Components Required</h2>
+      <ul>
+        <li>Arduino Uno</li>
+        <li>RGB LED</li>
+        <li>3 Push Buttons</li>
+        <li>3 Resistors (220Ω for RGB LED)</li>
+        <li>3 Resistors (10kΩ for buttons)</li>
+        <li>Breadboard</li>
+        <li>Jumper Wires</li>
+        <li>USB Cable</li>
+        <li>Zero PCB</li>
+      </ul>
+  
+      <h2>Circuit Diagram</h2>
+      <img src="circuit_diagram.png" alt="Circuit Diagram">
+      <p>Replace the above image with the actual circuit diagram of your project.</p>
+  
+      <h2>Zero PCB Assembly</h2>
+      <img src="pcb_assembly.png" alt="Zero PCB Assembly">
+      <p>Replace the above image with a photo of your Zero PCB assembly.</p>
+  
+      <h2>Arduino Code</h2>
+      <pre><code>
+  // Pin Definitions
+  const int redPin = D1;
+  const int greenPin = D2;
+  const int bluePin = D3;
+  const int autoModeButton = D4;
+  const int colorUpButton = D5;
+  const int colorDownButton = D6;
+  
+  // Variables
+  bool autoMode = false;
+  int currentColor = 0; // 0: Red, 1: Green, 2: Blue
+  unsigned long previousMillis = 0;
+  const long interval = 1000; // Auto mode color change interval
+  
+  void setup() {
+    // Set pin modes
+    pinMode(redPin, OUTPUT);
+    pinMode(greenPin, OUTPUT);
+    pinMode(bluePin, OUTPUT);
+    pinMode(autoModeButton, INPUT);
+    pinMode(colorUpButton, INPUT);
+    pinMode(colorDownButton, INPUT);
+  
+    // Initialize LED to off
+    setColor(0, 0, 0);
+  }
+  
+  void loop() {
+    // Check if auto mode button is pressed
+    if (digitalRead(autoModeButton) == HIGH) {
+      delay(200); // Debounce delay
+      autoMode = !autoMode; // Toggle auto mode
+      while (digitalRead(autoModeButton) == HIGH); // Wait for button release
+    }
+  
+    if (autoMode) {
+      // Auto mode: Cycle through colors
+      unsigned long currentMillis = millis();
+      if (currentMillis - previousMillis >= interval) {
+        previousMillis = currentMillis;
+        currentColor = (currentColor + 1) % 3; // Cycle through 0, 1, 2
+        setColor(currentColor);
+      }
+    } else {
+      // Manual mode: Use buttons to change colors
+      if (digitalRead(colorUpButton) == HIGH) {
+        delay(200); // Debounce delay
+        currentColor = (currentColor + 1) % 3; // Next color
+        setColor(currentColor);
+        while (digitalRead(colorUpButton) == HIGH); // Wait for button release
+      }
+      if (digitalRead(colorDownButton) == HIGH) {
+        delay(200); // Debounce delay
+        currentColor = (currentColor - 1 + 3) % 3; // Previous color
+        setColor(currentColor);
+        while (digitalRead(colorDownButton) == HIGH); // Wait for button release
+      }
+    }
+  }
+  
+  // Function to set RGB LED color based on currentColor
+  void setColor(int color) {
+    switch (color) {
+      case 0: // Red
+        digitalWrite(redPin, HIGH);
+        digitalWrite(greenPin, LOW);
+        digitalWrite(bluePin, LOW);
+        break;
+      case 1: // Green
+        digitalWrite(redPin, LOW);
+        digitalWrite(greenPin, HIGH);
+        digitalWrite(bluePin, LOW);
+        break;
+      case 2: // Blue
+        digitalWrite(redPin, LOW);
+        digitalWrite(greenPin, LOW);
+        digitalWrite(bluePin, HIGH);
+        break;
+    }
+  }
+      </code></pre>
+  
+      <h2>Project Video</h2>
+      <video controls>
+        <source src="project_video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      
+      <h2>Conclusion</h2>
+      <p>This project demonstrates how to control an RGB LED using three buttons with an Arduino. One button toggles an auto-cycling mode, while the other two buttons allow manual color selection. Using a Zero PCB makes the project compact and durable.</p>
+    </div>
+  </body>
+</html>
