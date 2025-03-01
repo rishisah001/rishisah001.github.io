@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="  The Binomial Expander tool provided here makes it easy to compute the expansion for any positive integer value of \(n\). 
+    Simply enter the value of \(n\), and the tool will generate the expanded form of \((a + b)^n\).">
+    <title>Binomial Expander</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Binomial Expansion Identity</h1>
+        <p>Expand (a + b)^n using this tool.</p>
+    </header>
+
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+  
+    <section class="content-container">
+        <h2>General Idea of Binomial Expansion</h2>
+        <p>
+            The binomial expansion describes the algebraic expansion of powers of a binomial expression, such as \((a + b)^n\). 
+            According to the <strong>Binomial Theorem</strong>, the expansion of \((a + b)^n\) is given by:
+        </p>
+        <p class="math-equation">
+            \[
+            (a + b)^n = \sum_{k=0}^{n} \binom{n}{k} a^{n-k} b^{k}
+            \]
+        </p>
+        <p>
+            Where:
+        </p>
+        <ul>
+            <li>\(n\) is a non-negative integer (the exponent).</li>
+            <li>\(\binom{n}{k}\) is the binomial coefficient, calculated as \(\frac{n!}{k!(n-k)!}\).</li>
+            <li>\(a\) and \(b\) are variables or constants.</li>
+        </ul>
+        <p>
+            Each term in the expansion corresponds to a specific combination of \(a\) and \(b\) raised to powers that add up to \(n\).
+        </p>
+    </section>
+
+ 
+    <section class="binomial-container">
+        <h2>Binomial Expander Tool</h2>
+        <label for="n">Enter n: </label>
+        <input type="number" id="n" value="2">
+        <button onclick="expandBinomial()">Generate Identity</button>
+        
+        <h3>Identity:</h3>
+        <p id="identity"></p>
+    </section>
+
+    
+    <section class="content-container">
+        <h2>Conclusion</h2>
+        <p>
+            The binomial expansion is a powerful tool in algebra that allows us to expand expressions of the form \((a + b)^n\) into a sum of terms. 
+            This tool is widely used in mathematics, physics, engineering, and computer science for simplifying complex expressions and solving problems.
+        </p>
+        <p>
+            By using the binomial expansion, we can:
+        </p>
+        <ul>
+            <li>Simplify polynomial expressions.</li>
+            <li>Solve problems in probability and statistics.</li>
+            <li>Understand patterns in Pascal's Triangle.</li>
+            <li>Apply it to calculus for series expansions.</li>
+        </ul>
+        <p>
+            The Binomial Expander tool provided here makes it easy to compute the expansion for any positive integer value of \(n\). 
+            Simply enter the value of \(n\), and the tool will generate the expanded form of \((a + b)^n\).
+        </p>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Rishikesh Sah. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function factorial(num) {
+            return num <= 1 ? 1 : num * factorial(num - 1);
+        }
+
+        function binomialCoefficient(n, k) {
+            return factorial(n) / (factorial(k) * factorial(n - k));
+        }
+
+        function expandBinomial() {
+            let n = parseInt(document.getElementById('n').value);
+            let identity = `(a + b)^${n} = `;
+            
+            for (let k = 0; k <= n; k++) {
+                let algebraicTerm = `${binomialCoefficient(n, k)}a^${n-k}b^${k}`;
+                if (n-k === 0) algebraicTerm = `${binomialCoefficient(n, k)}b^${k}`;
+                if (k === 0) algebraicTerm = `${binomialCoefficient(n, k)}a^${n-k}`;
+                if (n-k === 0 && k === 0) algebraicTerm = `1`;
+                identity += (k > 0 ? ' + ' : '') + algebraicTerm;
+            }
+            document.getElementById('identity').innerHTML = identity;
+        }
+    </script>
+
+  
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>
