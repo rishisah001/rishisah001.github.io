@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>4x4x4 LED Cube Project</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #0a0a0f;
+        color: #e0e0ff;
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+    }
+    header {
+        padding: 20px;
+        text-align: center;
+        background: #11111a;
+        border-bottom: 2px solid #1affff;
+    }
+    h1 {
+        color: #1affff;
+        font-size: 32px;
+    }
+    h2 {
+        color: #bb66ff;
+        margin-top: 40px;
+    }
+    .container {
+        width: 90%;
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+    }
+    .img-box {
+        width: 100%;
+        background: #151520;
+        border: 1px solid #1affff;
+        border-radius: 8px;
+        padding: 10px;
+        margin: 20px 0;
+        text-align: center;
+    }
+    .img-box img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+    }
+    .video-box {
+        margin: 30px 0;
+        text-align: center;
+    }
+    iframe {
+        width: 100%;
+        height: 400px;
+        border: none;
+        border-radius: 8px;
+    }
+    footer {
+        text-align: center;
+        margin-top: 50px;
+        padding: 20px;
+        color: #888;
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>4×4×4 LED Cube Project</h1>
+</header>
+
+<div class="container">
+
+    <h2>Introduction</h2>
+    <p>
+        I started this project with a simple goal: build a 4×4×4 LED cube that could display animations in three dimensions. It sounded
+        straightforward at first—place 64 LEDs in a cube and make them glow in patterns. But the deeper I went, the more challenges showed up.
+        Each challenge forced me to rethink, redesign, and engineer proper solutions.
+    </p>
+
+    <p>
+        My first realization was that controlling 64 LEDs individually is not practical. The Arduino Uno does not have 64 output pins,
+        and even if it did, wiring each LED directly would make the build messy, unreliable, and nearly impossible to debug. I needed a smarter
+        method of addressing each LED without assigning it a unique line.
+    </p>
+
+    <p>
+        I discovered multiplexing. Instead of giving every LED a direct path to the Arduino, I learned that I could group LEDs by layers and
+        columns. All LEDs in the same horizontal layer share a common ground, and all LEDs in a vertical line share a common positive terminal.
+        By activating one ground layer at a time while selecting specific columns, I can target individual LEDs.
+    </p>
+
+    <p>
+        This approach allowed me to reduce the wiring from 64 lines to only 20: four ground layers (G1–G4) and sixteen column lines (C1–C16).
+        But implementing this physically meant carefully bending LED legs, soldering them without short circuits, and maintaining perfect
+        alignment so the cube looks clean from all angles. The physical construction alone took patience and precision.
+    </p>
+
+    <p>
+        Once the cube structure was complete, I connected the layers and columns to the Arduino. For example, to glow the front-left-top LED,
+        I needed to activate G1 (top layer ground) and C1 (front-left column). When this worked for the first time, it felt like a breakthrough.
+        Slowly, the cube started behaving as a real 3D matrix.
+    </p>
+
+    <p>
+        But the next challenge appeared immediately: the Arduino cannot supply enough current to drive all LEDs in a layer directly. Lighting
+        even one layer pulls more current than the Arduino pins are designed for. To avoid damaging the board, I added BC547 NPN transistors,
+        one for each layer. The Arduino now only controls the base of each transistor, and the transistor handles the actual layer current.
+    </p>
+
+    <p>
+        Another obstacle came from voltage differences. The Arduino outputs 5V, but most LEDs operate around 3V. To prevent burning LEDs, I
+        added 330Ω resistors in series with every column. Only after this the brightness stabilized and the LEDs were safe.
+    </p>
+
+    <p>
+        After solving the electrical challenges, I moved to programming. Using the Arduino IDE, I built functions to activate specific LEDs,
+        switch layers rapidly, and create animations. From simple blinks to spirals, waves, bouncing effects, and chaotic random movements,
+        the cube slowly transformed into a complete 3D display capable of running any pattern I imagined.
+    </p>
+
+    <h2>Parts Required</h2>
+    <p>
+        Gathering the right components was its own challenge. I wanted the cube to be reliable, stable, and visually clean, so I had to be
+        careful with the choices. Each part below played a very specific role in solving problems I encountered during the build.
+    </p>
+    <ul>
+        <li><strong>64 LEDs</strong> – All LEDs must be uniform in brightness and color to avoid uneven lighting. This becomes noticeable in 3D animations.</li>
+        <li><strong>4 × BC547 NPN Transistors</strong> – I used one for each layer. The Arduino can’t source enough current to drive a full layer directly, so these transistors became essential.</li>
+        <li><strong>16 × 330Ω Resistors</strong> – These were added to each column line to drop the 5V Arduino output down to safe levels for LEDs.</li>
+        <li><strong>Arduino Uno</strong> – Chosen for simplicity, wide support, and enough I/O pins to handle 20 control lines.</li>
+        <li><strong>Soldering Iron + Solder Wire</strong> – Building the cube structure required clean joints to prevent shorts.</li>
+        <li><strong>Connecting Wires</strong> – For linking layers, columns, transistors, and power rails.</li>
+        <li><strong>Breadboard or PCB</strong> – I used this to mount the transistors and resistors neatly.</li>
+        <li><strong>5V Power Supply</strong> – To ensure stable operation without stressing the Arduino.</li>
+        <li><strong>LED Bender / Alignment Jig</strong> – Critical for ensuring the cube looks perfectly aligned from all angles.</li>
+    </ul>
+
+    <h2>Software Used</h2>
+    <p>
+        The software tools I used were equally important. Each one solved a different stage of the development process—from designing the
+        circuit to debugging animations.
+    </p>
+    <ul>
+        <li><strong>Arduino IDE</strong> – This is where all the programming happened. Every animation, every LED pattern was developed here.</li>
+        <li><strong>Fritzing / EasyEDA</strong> – Useful for drawing clean circuit diagrams and planning connections before soldering.</li>
+        <li><strong>Arduino Serial Monitor</strong> – I used this heavily for debugging, checking if the right LEDs were being addressed.</li>
+    </ul>
+
+    
+    <h2>Example Codes</h2>
+    <p>Here are some sample animations I programmed while testing the cube:</p>
+
+    <h3>1. Spiral effect</h3>
+    <pre style="background:#11111a; padding:15px; border:1px solid #1affff; border-radius:6px; overflow-x:auto;">
+void loop() {
+    // 4x4x4 LED Cube Spiral Effect
+// Layers: A5, A4, D0, D1
+// Columns: 2-13, A0-A3
+
+int layers[4] = {A5, A4, 0, 1};        // Layer control pins
+int cols[16] = {2, 3, 4, 5, A0, A1, A2, A3, 6, 7, 8, 9, 10, 11, 12, 13}; // Column pins
+
+// Spiral sequence per layer (column indices)
+int spiralOrder[16] = {0,1,2,3,7,11,15,14,13,12,8,4,5,6,10,9}; 
+
+void setup() {
+  // Initialize all pins
+  for(int i=0; i<4; i++) pinMode(layers[i], OUTPUT);
+  for(int i=0; i<16; i++) pinMode(cols[i], OUTPUT);
+
+  // Turn all LEDs off initially
+  for(int i=0; i<16; i++) digitalWrite(cols[i], LOW);
+  for(int i=0; i<4; i++) digitalWrite(layers[i], LOW);
+}
+
+void loop() {
+  // Spiral effect from outer to inner
+  for(int l=0; l<4; l++) {      // Loop through layers
+    digitalWrite(layers[l], HIGH);  // Enable current layer
+    for(int i=0; i<16; i++) {       // Spiral through columns
+      digitalWrite(cols[spiralOrder[i]], HIGH);
+      delay(100);                   // Adjust speed here
+      digitalWrite(cols[spiralOrder[i]], LOW);
+    }
+    digitalWrite(layers[l], LOW);   // Turn off layer before next
+  }
+
+  // Spiral effect from inner to outer (optional, reverse)
+  for(int l=3; l>=0; l--) {
+    digitalWrite(layers[l], HIGH);
+    for(int i=15; i>=0; i--) {
+      digitalWrite(cols[spiralOrder[i]], HIGH);
+      delay(100);
+      digitalWrite(cols[spiralOrder[i]], LOW);
+    }
+    digitalWrite(layers[l], LOW);
+  }
+}
+
+}
+    </pre>
+
+    <h3>2. Layer Sweep</h3>
+    <pre style="background:#11111a; padding:15px; border:1px solid #1affff; border-radius:6px; overflow-x:auto;">
+// 4x4x4 LED Cube: Vertical Full-Plane Drop (Top → Bottom)
+
+int layers[4] = {A5, A4, 0, 1};      // Top → Bottom
+int cols[16]  = {2,3,4,5, 14,15,16,17, 6,7,8,9, 10,11,12,13};
+
+int colMap[4][4] = {
+  {0,1,2,3},
+  {4,5,6,7},
+  {8,9,10,11},
+  {12,13,14,15}
+};
+
+void setup() {
+  for(int i=0;i<4;i++) pinMode(layers[i], OUTPUT);
+  for(int i=0;i<16;i++) pinMode(cols[i], OUTPUT);
+  clearAll();
+}
+
+void loop() {
+  verticalDrop(6);   // drop 6 times
+}
+
+// -------------------- EFFECT FUNCTIONS --------------------
+
+void verticalDrop(int times){
+  for(int t=0; t<times; t++){
+    
+    // Top → Bottom
+    for(int l=0; l<4; l++){
+      lightLayer(l);
+      delay(150);
+    }
+
+    // Bottom → Top (return animation)
+    for(int l=3; l>=0; l--){
+      lightLayer(l);
+      delay(150);
+    }
+  }
+}
+
+void lightLayer(int layer){
+  clearAll();
+  digitalWrite(layers[layer], HIGH);
+  for(int r=0;r<4;r++){
+    for(int c=0;c<4;c++){
+      digitalWrite(cols[colMap[r][c]], HIGH);
+    }
+  }
+}
+
+void clearAll(){
+  for(int l=0;l<4;l++) digitalWrite(layers[l], LOW);
+  for(int i=0;i<16;i++) digitalWrite(cols[i], LOW);
+}
+
+    </pre>
+
+    <h3>3. Rain Animation</h3>
+    <pre style="background:#11111a; padding:15px; border:1px solid #1affff; border-radius:6px; overflow-x:auto;">
+void rain(){
+    int layerPins[4] = {A5, A4, 0, 1};      // your wiring
+int colPins[16] = {2,3,4,5, A0,A1,A2,A3, 6,7,8,9, 10,11,12,13};
+
+void setup() {
+  for (int i=0; i<16; i++) pinMode(colPins[i], OUTPUT);
+  for (int i=0; i<4; i++)  pinMode(layerPins[i], OUTPUT);
+  clearCube();
+}
+
+void loop() {
+  raindrop();
+}
+
+void activateLayer(int L) { digitalWrite(layerPins[L], LOW); }
+void deactivateLayer(int L){ digitalWrite(layerPins[L], HIGH); }
+void setColumn(int c, bool s){ digitalWrite(colPins[c], s ? HIGH : LOW); }
+
+void clearCube() {
+  for (int i=0;i<16;i++) setColumn(i,0);
+  for (int i=0;i<4;i++) deactivateLayer(i);
+}
+
+// force LED on for multiplex
+void lightLED(int layer, int col, int t) {
+  unsigned long start = millis();
+  while (millis() - start < t) {
+    for (int L=0; L<4; L++) {
+      activateLayer(L);
+      for (int c=0; c<16; c++)
+        setColumn(c, (L == layer && c == col));
+      delayMicroseconds(900);
+      deactivateLayer(L);
+    }
+  }
+}
+
+// *** THIS IS THE FULLY CORRECT ORDER ***
+void raindrop() {
+  int drop = random(0,16);
+  
+  // FIX: force real-world top → bottom
+  int order[4] = {3, 2, 1, 0};  
+
+  for (int i=0; i<4; i++) {
+    int L = order[i];
+    lightLED(L, drop, 120);
+    clearCube();
+  }
+}
+
+}
+    </pre>
+
+    <h2>Circuit Diagram – LED Cube Layout</h2> – LED Cube Layout</h2> – LED Cube Layout</h2> – LED Cube Layout</h2>
+    <div class="img-box">
+        
+        <img src="cube_diagram1.jpeg" alt="LED Cube Diagram Placeholder" />
+    </div>
+    <div class="img-box">
+        
+        <img src="cube_diagram2.png" alt="LED Cube Diagram Placeholder" />
+    </div>
+
+    <h2>Transistor Switching Diagram</h2>
+    <p>
+        Since the Arduino cannot supply enough current to light an entire layer directly, I used BC547 NPN transistors to switch the
+        ground layers. Each transistor handles one layer (G1–G4). The Arduino controls the transistor bases.
+    </p>
+
+    <div class="img-box">
+        
+        <img src="transistor_diagram.jpeg" alt="Transistor Switching Diagram Placeholder" />
+    </div>
+
+    <h2>Pin Mapping</h2>
+    <pre style="background:#11111a; padding:15px; border:1px solid #1affff; border-radius:6px; overflow-x:auto;">
+A0 = C5     A1 = C6     A2 = C7     A3 = C8
+A4 = G2     A5 = G1
+0  = G3     1  = G4
+2  = C1     3  = C2     4 = C3      5 = C4
+6  = C9     7 = C10     8 = C11     9 = C12
+10 = C13    11 = C14    12 = C15    13 = C16
+    </pre>
+
+    <h2>Result – Complete LED Cube Animation</h2>
+    <p>Here is a video demonstration of the cube running animations:</p>
+
+    <video controls width="600" height="350">
+    <source src="project_video.mp4" type="video/mp4">
+</video>
+
+</div>
+
+<footer>
+    LED Cube Project © 2025
+</footer>
+
+</body>
+</html>
