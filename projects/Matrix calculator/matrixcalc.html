@@ -1,322 +1,326 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Matrix Solver — Step-by-step solutions for Gaussian Elimination, Gauss-Seidel, and Cramer's method. Learn and solve linear systems interactively.">
-  <title>Matrix Solver — Step-by-step</title>
-  <link rel="icon" type="image/png" href="logo.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Matrix Solver — Step-by-step (Gaussian Elimination, Gauss-Seidel, Cramer)</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <style>
-    /* General Styles */
-    body {
-      background-color: #0d0d0d;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-
-    /* Header */
-    header {
-      padding: 20px;
-      background: linear-gradient(to right, #00ffff, #8000ff);
-      animation: fadeIn 2s ease-in-out;
-    }
-    header h1 {
-      font-size: 2.5rem;
-      color: #00ffff;
-      margin: 0;
-    }
-    header p {
-      font-size: 1.2rem;
-      color: #fff;
-      margin: 5px 0;
-    }
-
-    /* Navigation Bar */
-    nav ul {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      background: #222;
-      margin: 0;
-    }
-    nav ul li {
-      margin: 10px;
-    }
-    nav ul li a {
-      color: #00ffff;
-      text-decoration: none;
-      font-size: 1.1rem;
-      transition: color 0.3s;
-    }
-    nav ul li a:hover {
-      color: #8000ff;
-    }
-
-    /* Main Card */
-    .card {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #1a1a1a;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,255,255,0.2);
-      text-align: left;
-    }
-    .card h1 {
-      color: #00ffff;
-      text-align: center;
-    }
-
-    /* Controls */
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 20px;
-      justify-content: center;
-    }
-    .controls label {
-      color: #fff;
-      font-weight: bold;
-    }
-    .controls select, .controls input {
-      padding: 5px;
-      border-radius: 5px;
-      border: 1px solid #00ffff;
-      background: #0d0d0d;
-      color: #fff;
-    }
-    .controls button {
-      background: linear-gradient(to right, #00ffff, #8000ff);
-      border: none;
-      padding: 8px 15px;
-      color: #fff;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: transform 0.2s;
-    }
-    .controls button:hover {
-      transform: scale(1.1);
-    }
-
-    /* Matrix Inputs */
-    .matrix-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    .row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .cell {
-      width: 60px;
-      padding: 5px;
-      border-radius: 5px;
-      border: 1px solid #00ffff;
-      background: #0d0d0d;
-      color: #fff;
-      text-align: center;
-    }
-
-    /* Steps */
-    .steps {
-      background: #0d0d0d;
-      border: 1px solid #00ffff;
-      border-radius: 10px;
-      padding: 15px;
-      max-height: 400px;
-      overflow-y: auto;
-      color: #fff;
-    }
-    .steps .danger {
-      color: #ff3333;
-      font-weight: bold;
-    }
-    table {
-      border-collapse: collapse;
-      margin-bottom: 10px;
-    }
-    td {
-      border: 1px solid #00ffff;
-      padding: 5px 10px;
-      text-align: center;
-    }
-
-    /* Footer */
-    footer, .footer-quote {
-      text-align: center;
-      margin-top: 40px;
-      color: #fff;
-      font-style: italic;
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    :root { font-family: Inter, system-ui, "Segoe UI", Roboto, Arial, sans-serif; color-scheme: dark; }
+    body { background: #0b0f17; color: #e6f5ff; margin: 0; padding: 28px; -webkit-font-smoothing:antialiased; }
+    .card { max-width: 1100px; margin: 16px auto; background: linear-gradient(180deg,#071022 0%, #081229 100%); padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(2,6,23,0.6); }
+    h1 { margin: 0 0 12px; font-size: 20px; color: #c8f7ff; }
+    .controls { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:14px; align-items:end; }
+    select, input, button { padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); color:inherit; font-size:14px; }
+    .matrix-grid { display:block; gap:8px; margin-bottom:12px; }
+    .row { display:flex; gap:8px; margin-bottom:8px; }
+    .cell { width:72px; padding:8px; background:rgba(255,255,255,0.015); border-radius:6px; border:1px solid rgba(255,255,255,0.03); color:inherit; }
+    label.small { display:block; font-size:12px; color:#9fb0d9; margin-bottom:6px; }
+    .steps { background: rgba(255,255,255,0.02); padding:12px; border-radius:8px; max-height:460px; overflow:auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; font-size:13px; color:#dcefff; }
+    .two-col { display:grid; grid-template-columns: 1fr 1fr; gap:18px; align-items:start; }
+    .muted { color:#9fb0d9; margin-bottom:8px; }
+    .hint { font-size:12px; color:#a1b4d8; margin-top:8px; }
+    .method-specific { display:block; }
+    button.primary { background:#00e3ff; color:#031827; border:none; padding:10px 12px; border-radius:8px; font-weight:700; cursor:pointer; }
+    button:hover { transform: translateY(-1px); transition: transform .12s ease; }
+    .footer-quote { font-size:13px; color:#bcd8ff; margin-top:12px; }
+    .danger { color:#ffb3b3; }
+    .ok { color:#b9ffcf; }
+    table { border-collapse:collapse; margin-top:8px; }
+    td { border:1px solid rgba(255,255,255,0.04); padding:6px 10px; text-align:right; min-width:40px; }
+    @media (max-width:900px) { .two-col { grid-template-columns: 1fr; } .row { flex-wrap:wrap; } .cell { width:60px; } }
   </style>
 </head>
 <body>
+  <div class="card">
+    <h1>Matrix Solver — step-by-step</h1>
 
-<header>
-  <h1>Matrix Solver — Step-by-step</h1>
-  <p>Learn Gaussian Elimination, Gauss-Seidel, and Cramer's method interactively</p>
-</header>
+    <div class="controls">
+      <div>
+        <label class="small">Matrix size</label>
+        <select id="sizeSelect">
+          <option value="2">2 × 2</option>
+          <option value="3" selected>3 × 3</option>
+        </select>
+      </div>
 
-<nav>
-  <ul>
-    <li><a href="/index.html">Home</a></li>
-    <li><a href="/projects/projects.html">Projects</a></li>
-    <li><a href="/index.html">Skills</a></li>
-    <li><a href="/blog/blog.html">Blog</a></li>
-    <li><a href="/index.html">Gallery</a></li>
-    <li><a href="/index.html#contact">Contact</a></li>
-  </ul>
-</nav>
+      <div>
+        <label class="small">Solve method</label>
+        <select id="methodSelect">
+          <option value="gauss-elim">Gaussian elimination (step-by-step)</option>
+          <option value="gauss-siedel">Gauss-Seidel (iterative)</option>
+          <option value="cramer">Cramer's method (2×2 and 3×3)</option>
+        </select>
+      </div>
 
-<div class="card">
-  <div class="controls">
-    <div>
-      <label>Matrix size</label><br>
-      <select id="sizeSelect">
-        <option value="2">2 × 2</option>
-        <option value="3" selected>3 × 3</option>
-      </select>
+      <div id="gs-params" class="method-specific" style="display:none">
+        <label class="small">Initial guess (comma separated)</label>
+        <input id="initialGuess" placeholder="e.g. 0,0,0">
+      </div>
+
+      <div id="gs-params2" class="method-specific" style="display:none">
+        <label class="small">Tolerance</label>
+        <input id="tolerance" value="1e-6">
+      </div>
+
+      <div>
+        <button id="solveBtn" class="primary">Solve step-by-step</button>
+      </div>
+
+      <div>
+        <button id="clearSteps">Clear steps</button>
+      </div>
     </div>
-    <div>
-      <label>Solve method</label><br>
-      <select id="methodSelect">
-        <option value="gauss-elim">Gaussian elimination</option>
-        <option value="gauss-siedel">Gauss-Seidel</option>
-        <option value="cramer">Cramer's method</option>
-      </select>
+
+    <div class="two-col">
+      <div>
+        <div id="matrixInputs"></div>
+        <p class="hint">Provide coefficients for the system A x = b. For Cramer method use square matrix and RHS vector b.</p>
+      </div>
+
+      <div>
+        <div class="muted">Steps and intermediate results</div>
+        <div id="steps" class="steps"></div>
+      </div>
     </div>
-    <div id="gs-params" style="display:none">
-      <label>Initial guess (comma separated)</label><br>
-      <input id="initialGuess" placeholder="0,0,0">
-    </div>
-    <div id="gs-params2" style="display:none">
-      <label>Tolerance</label><br>
-      <input id="tolerance" value="1e-6">
-    </div>
-    <div>
-      <button id="solveBtn">Solve step-by-step</button>
-    </div>
-    <div>
-      <button id="clearSteps">Clear steps</button>
-    </div>
+
+    <div class="footer-quote" id="footerQuote"></div>
   </div>
 
-  <div id="matrixInputs"></div>
+  <script>
+    const $ = id => document.getElementById(id);
+    const stepsEl = $('steps');
+    let currentSize = 3;
+    let method = 'gauss-elim';
 
-  <div class="steps" id="steps"></div>
-
-  <div class="footer-quote" id="footerQuote"></div>
-</div>
-
-<script>
-const $ = id => document.getElementById(id);
-const stepsEl = $('steps');
-let currentSize = 3;
-let method = 'gauss-elim';
-
-function makeMatrixInputs(n){
-  currentSize = n;
-  const container = $('matrixInputs');
-  container.innerHTML = '';
-  const matrixWrap = document.createElement('div');
-  matrixWrap.className = 'matrix-grid';
-
-  const coeffTitle = document.createElement('div');
-  coeffTitle.innerHTML = '<label>Coefficient matrix A</label>';
-  matrixWrap.appendChild(coeffTitle);
-
-  for(let r=0;r<n;r++){
-    const row = document.createElement('div'); row.className='row';
-    for(let c=0;c<n;c++){
-      const inp = document.createElement('input');
-      inp.className='cell';
-      inp.type='number';
-      inp.step='any';
-      inp.value=(r===c)?'1':'0';
-      inp.id=`a_${r}_${c}`;
-      row.appendChild(inp);
+    function makeMatrixInputs(n){
+      currentSize = n;
+      const container = $('matrixInputs');
+      container.innerHTML = '';
+      const matrixWrap = document.createElement('div');
+      matrixWrap.className = 'matrix-grid';
+      const titleA = document.createElement('div');
+      titleA.innerHTML = '<label class="small">Coefficient matrix A</label>';
+      matrixWrap.appendChild(titleA);
+      for(let r=0;r<n;r++){
+        const row = document.createElement('div');
+        row.className = 'row';
+        for(let c=0;c<n;c++){
+          const inp = document.createElement('input');
+          inp.className = 'cell';
+          inp.type = 'number';
+          inp.step = 'any';
+          inp.value = (r===c)? '1' : '0';
+          inp.id = `a_${r}_${c}`;
+          row.appendChild(inp);
+        }
+        matrixWrap.appendChild(row);
+      }
+      const rhsTitle = document.createElement('div');
+      rhsTitle.innerHTML = '<label class="small">Right-hand side vector b</label>';
+      matrixWrap.appendChild(rhsTitle);
+      const rhsRow = document.createElement('div');
+      rhsRow.className = 'row';
+      for(let r=0;r<n;r++){
+        const inp = document.createElement('input');
+        inp.className = 'cell';
+        inp.type = 'number';
+        inp.step = 'any';
+        inp.value = '0';
+        inp.id = `b_${r}`;
+        rhsRow.appendChild(inp);
+      }
+      matrixWrap.appendChild(rhsRow);
+      container.appendChild(matrixWrap);
     }
-    matrixWrap.appendChild(row);
-  }
 
-  const rhsTitle = document.createElement('div');
-  rhsTitle.innerHTML = '<label>Right-hand side vector b</label>';
-  matrixWrap.appendChild(rhsTitle);
-  const rhsRow = document.createElement('div'); rhsRow.className='row';
-  for(let r=0;r<n;r++){
-    const inp = document.createElement('input');
-    inp.className='cell';
-    inp.type='number';
-    inp.step='any';
-    inp.value='0';
-    inp.id=`b_${r}`;
-    rhsRow.appendChild(inp);
-  }
-  matrixWrap.appendChild(rhsRow);
-  container.appendChild(matrixWrap);
-}
+    function readMatrix(n){
+      const A = Array.from({length:n},()=>Array(n).fill(0));
+      const b = Array(n).fill(0);
+      for(let i=0;i<n;i++){
+        for(let j=0;j<n;j++){
+          const val = $(`a_${i}_${j}`).value;
+          A[i][j] = val === '' ? 0 : parseFloat(val);
+        }
+        const bv = $(`b_${i}`).value;
+        b[i] = bv === '' ? 0 : parseFloat(bv);
+      }
+      return {A,b};
+    }
 
-function readMatrix(n){
-  const A = Array.from({length:n},()=>Array(n).fill(0));
-  const b = Array(n).fill(0);
-  for(let i=0;i<n;i++){
-    for(let j=0;j<n;j++) A[i][j]=parseFloat($(`a_${i}_${j}`).value)||0;
-    b[i]=parseFloat($(`b_${i}`).value)||0;
-  }
-  return {A,b};
-}
+    function appendStep(html){
+      const el = document.createElement('div');
+      el.innerHTML = html;
+      stepsEl.appendChild(el);
+      stepsEl.scrollTop = stepsEl.scrollHeight;
+    }
 
-function appendStep(html){
-  const el=document.createElement('div'); el.innerHTML=html; stepsEl.appendChild(el);
-  stepsEl.scrollTop=stepsEl.scrollHeight;
-}
-function clearSteps(){ stepsEl.innerHTML=''; }
+    function clearSteps(){ stepsEl.innerHTML = ''; }
 
-function det2(m){ return m[0][0]*m[1][1]-m[0][1]*m[1][0]; }
-function det3(m){ return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])-m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])+m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]); }
+    function det2(m){ return m[0][0]*m[1][1] - m[0][1]*m[1][0]; }
+    function det3(m){ return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1]) - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0]) + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]); }
 
-function renderMatrix(M){
-  let html='<table>';
-  M.forEach(r=>{html+='<tr>'; r.forEach(v=>html+=`<td>${v}</td>`); html+='</tr>';});
-  html+='</table>';
-  return html;
-}
+    function renderMatrix(M){
+      let html = '<table>';
+      for(let i=0;i<M.length;i++){
+        html += '<tr>';
+        for(let j=0;j<M[i].length;j++){
+          html += `<td>${roundNice(M[i][j])}</td>`;
+        }
+        html += '</tr>';
+      }
+      html += '</table>';
+      return html;
+    }
 
-$('sizeSelect').addEventListener('change', e=>makeMatrixInputs(parseInt(e.target.value)));
-$('methodSelect').addEventListener('change', e=>{
-  method=e.target.value;
-  const showGS = method==='gauss-siedel';
-  $('gs-params').style.display=showGS?'block':'none';
-  $('gs-params2').style.display=showGS?'block':'none';
-});
+    function roundNice(v){
+      if(typeof v !== 'number' || !isFinite(v)) return String(v);
+      if(Math.abs(v) < 1e-10) return '0';
+      if(Math.abs(v) < 1e-3) return v.toExponential(6);
+      return Math.round(v*1e8)/1e8;
+    }
 
-$('solveBtn').addEventListener('click', ()=>{
-  clearSteps();
-  const {A,b}=readMatrix(currentSize);
-  // Implement methods as needed (Gaussian, Cramer, Gauss-Seidel)
-  appendStep('<strong>Solution methods implemented here</strong>');
-});
-$('clearSteps').addEventListener('click', clearSteps);
+    function cramerSolve(A,b){
+      const n = A.length;
+      appendStep(`<strong>Cramer's method for ${n} x ${n}</strong>`);
+      appendStep('<div>Matrix A:</div>');
+      appendStep(renderMatrix(A));
+      if(n===2){
+        const D = det2(A);
+        appendStep(`<div>Determinant of the matrix shown above = ${D}</div>`);
+        if(Math.abs(D) < 1e-12){ appendStep('<div class="danger">Determinant is zero. System may be singular or have infinite solutions.</div>'); return; }
+        const A1 = [[b[0],A[0][1]],[b[1],A[1][1]]];
+        const A2 = [[A[0][0],b[0]],[A[1][0],b[1]]];
+        appendStep('<div>Matrix formed by replacing first column with b:</div>');
+        appendStep(renderMatrix(A1));
+        const D1 = det2(A1);
+        appendStep('<div>Matrix formed by replacing second column with b:</div>');
+        appendStep(renderMatrix(A2));
+        const D2 = det2(A2);
+        appendStep(`<strong>Solution: x1 = ${D1}/${D} = ${D1/D}, x2 = ${D2}/${D} = ${D2/D}</strong>`);
+      } else if(n===3){
+        const D = det3(A);
+        appendStep(`<div>Determinant of the matrix shown above = ${D}</div>`);
+        if(Math.abs(D) < 1e-12){ appendStep('<div class="danger">Determinant is zero. System may be singular or have infinite solutions.</div>'); return; }
+        const mats = [];
+        for(let col=0;col<3;col++){
+          const M = A.map(r => r.slice());
+          for(let r=0;r<3;r++) M[r][col] = b[r];
+          mats.push(M);
+        }
+        appendStep('<div>Matrix formed by replacing first column with b:</div>');
+        appendStep(renderMatrix(mats[0]));
+        const D1 = det3(mats[0]);
+        appendStep('<div>Matrix formed by replacing second column with b:</div>');
+        appendStep(renderMatrix(mats[1]));
+        const D2 = det3(mats[1]);
+        appendStep('<div>Matrix formed by replacing third column with b:</div>');
+        appendStep(renderMatrix(mats[2]));
+        const D3 = det3(mats[2]);
+        appendStep(`<strong>Solution: x1 = ${D1}/${D} = ${D1/D}, x2 = ${D2}/${D} = ${D2/D}, x3 = ${D3}/${D} = ${D3/D}</strong>`);
+      } else {
+        appendStep('<div class="danger">Cramer method implemented only for 2x2 and 3x3 here.</div>');
+      }
+    }
 
-makeMatrixInputs(currentSize);
-$('footerQuote').textContent='Small disciplined steps win big. Keep building.';
-</script>
-<link rel="icon" type="image/png" href="logo.png">
+    function gaussianElimination(A,b){
+      const n = A.length;
+      appendStep(`<strong>Gaussian elimination (${n} x ${n}) with partial pivoting</strong>`);
+      const M = A.map((row,i)=>row.concat([b[i]]));
+      appendStep('<div>Initial augmented matrix (A followed by b column):</div>');
+      appendStep(renderMatrix(M));
+      for(let k=0;k<n;k++){
+        let maxRow = k;
+        for(let i=k+1;i<n;i++) if(Math.abs(M[i][k]) > Math.abs(M[maxRow][k])) maxRow = i;
+        if(Math.abs(M[maxRow][k]) < 1e-12){ appendStep(`<div class="danger">Pivot at column ${k} is zero. Matrix may be singular or system underdetermined.</div>`); continue; }
+        if(maxRow !== k){
+          appendStep(`<div>Swap row ${k} with row ${maxRow}</div>`);
+          const tmp = M[k]; M[k] = M[maxRow]; M[maxRow] = tmp;
+          appendStep(renderMatrix(M));
+        }
+        for(let i=k+1;i<n;i++){
+          const factor = M[i][k] / M[k][k];
+          if(Math.abs(factor) < 1e-15) continue;
+          appendStep(`<div>Eliminate row ${i} using factor = ${roundNice(factor)}</div>`);
+          for(let j=k;j<=n;j++){ M[i][j] = M[i][j] - factor * M[k][j]; if(Math.abs(M[i][j]) < 1e-14) M[i][j] = 0; }
+          appendStep(renderMatrix(M));
+        }
+      }
+      appendStep('<strong>Back substitution</strong>');
+      for(let i=n-1;i>=0;i--) if(Math.abs(M[i][i]) < 1e-12) appendStep('<div class="danger">Zero on diagonal detected. System may be singular.</div>');
+      const x = Array(n).fill(0);
+      for(let i=n-1;i>=0;i--){
+        let s = M[i][n];
+        for(let j=i+1;j<n;j++) s -= M[i][j]*x[j];
+        x[i] = s / M[i][i];
+        appendStep(`<div>x[${i}] = ${roundNice(s)} / ${roundNice(M[i][i])} = ${roundNice(x[i])}</div>`);
+      }
+      appendStep(`<strong>Solution: x = [${x.map(roundNice).join(', ')}]</strong>`);
+    }
 
+    function gaussSeidel(A,b,initial,tol,maxIter=200){
+      const n = A.length;
+      appendStep(`<strong>Gauss-Seidel iterative method</strong>`);
+      appendStep('<div>Checking diagonal dominance</div>');
+      let dd = true;
+      for(let i=0;i<n;i++){
+        let sum = 0;
+        for(let j=0;j<n;j++) if(i!==j) sum += Math.abs(A[i][j]);
+        appendStep(`<div>Row ${i}: |a[${i}][${i}]| = ${roundNice(Math.abs(A[i][i]))} vs sum of others = ${roundNice(sum)}</div>`);
+        if(Math.abs(A[i][i]) <= sum) dd = false;
+      }
+      appendStep(dd ? '<div class="ok">Matrix appears diagonally dominant - likely convergent</div>' : '<div class="danger">Not diagonally dominant - convergence not guaranteed</div>');
+      let x = initial.slice();
+      appendStep(`<div>Initial guess: [${x.map(roundNice).join(', ')}]</div>`);
+      for(let iter=1;iter<=maxIter;iter++){
+        appendStep(`<strong>Iteration ${iter}</strong>`);
+        let maxDiff = 0;
+        for(let i=0;i<n;i++){
+          let sum = 0;
+          for(let j=0;j<n;j++) if(j!==i) sum += A[i][j]*x[j];
+          const newXi = (b[i] - sum) / A[i][i];
+          appendStep(`<div>x[${i}] new = (${roundNice(b[i])} - ${roundNice(sum)}) / ${roundNice(A[i][i])} = ${roundNice(newXi)}</div>`);
+          maxDiff = Math.max(maxDiff, Math.abs(newXi - x[i]));
+          x[i] = newXi;
+        }
+        appendStep(`<div>Max change this iteration = ${roundNice(maxDiff)}</div>`);
+        appendStep(`<div>Current solution estimate: [${x.map(roundNice).join(', ')}]</div>`);
+        if(maxDiff < tol){ appendStep(`<strong>Converged in ${iter} iterations with tolerance ${tol}</strong>`); appendStep(`<strong>Solution: [${x.map(roundNice).join(', ')}]</strong>`); return; }
+      }
+      appendStep(`<div class="danger">Reached max iterations without convergence to tolerance ${tol}</div>`);
+      appendStep(`<strong>Last estimate: [${x.map(roundNice).join(', ')}]</strong>`);
+    }
+
+    $('sizeSelect').addEventListener('change', e => makeMatrixInputs(parseInt(e.target.value,10)));
+    $('methodSelect').addEventListener('change', e => {
+      method = e.target.value;
+      const showGS = method === 'gauss-siedel';
+      $('gs-params').style.display = showGS ? 'block' : 'none';
+      $('gs-params2').style.display = showGS ? 'block' : 'none';
+    });
+
+    $('solveBtn').addEventListener('click', () => {
+      clearSteps();
+      const {A,b} = readMatrix(currentSize);
+      if(method === 'cramer'){
+        if(currentSize < 2 || currentSize > 3){ appendStep('<div class="danger">Cramer only implemented for 2x2 and 3x3 here.</div>'); return; }
+        cramerSolve(A,b);
+      } else if(method === 'gauss-elim'){
+        gaussianElimination(A,b);
+      } else if(method === 'gauss-siedel'){
+        const tol = parseFloat($('tolerance').value) || 1e-6;
+        let init = $('initialGuess').value.trim();
+        let initial;
+        if(init === '') initial = Array(currentSize).fill(0); else { initial = init.split(',').map(v => parseFloat(v.trim()) || 0); if(initial.length < currentSize) initial = initial.concat(Array(currentSize - initial.length).fill(0)); }
+        for(let i=0;i<currentSize;i++){ if(Math.abs(A[i][i]) < 1e-12){ appendStep(`<div class="danger">a[${i}][${i}] is zero. Gauss-Seidel cannot proceed without rearranging equations.</div>`); return; } }
+        gaussSeidel(A,b,initial,tol);
+      }
+    });
+
+    $('clearSteps').addEventListener('click', () => clearSteps());
+
+    makeMatrixInputs(currentSize);
+    $('footerQuote').textContent = 'Keep your focus on becoming an electronics researcher - small disciplined steps win big. Keep building.';
+  </script>
 </body>
 </html>
