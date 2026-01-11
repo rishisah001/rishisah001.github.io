@@ -1,11 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0;url=https://5254694e-beda-4200-bcef-3a71f097a91d-00-1p1hie7mwafuk.picard.replit.dev/">
-  <title>Redirecting...</title>
+<meta charset="UTF-8">
+<title>AI Voice Call</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #0f172a;
+        font-family: Arial, sans-serif;
+        color: white;
+    }
+
+    .call-box {
+        width: 320px;
+        padding: 30px;
+        background: #020617;
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 0 25px rgba(0,255,255,0.15);
+    }
+
+    .title {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .status {
+        font-size: 16px;
+        color: #38bdf8;
+        margin-bottom: 20px;
+    }
+
+    .timer {
+        font-size: 28px;
+        margin-bottom: 25px;
+        display: none;
+    }
+
+    .cut-btn {
+        padding: 12px 28px;
+        font-size: 16px;
+        background: #dc2626;
+        border: none;
+        border-radius: 50px;
+        color: white;
+        cursor: pointer;
+    }
+</style>
 </head>
+
 <body>
-  <p>If you are not redirected automatically, <a href="https://5254694e-beda-4200-bcef-3a71f097a91d-00-1p1hie7mwafuk.picard.replit.dev/">click here</a>.</p>
+
+<div class="call-box">
+    <div class="title">AI Voice Call</div>
+    <div class="status" id="status">Ringing</div>
+    <div class="timer" id="timer">00:00</div>
+    <button class="cut-btn" id="cutBtn">Cut Call</button>
+</div>
+
+<script>
+    const statusText = document.getElementById("status");
+    const timerText = document.getElementById("timer");
+    const cutBtn = document.getElementById("cutBtn");
+
+    let audioCtx;
+    let oscillator;
+    let gainNode;
+
+    let ringCount = 0;
+    let ringInterval;
+    let callInterval;
+    let seconds = 0;
+
+    function startRingTone() {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        oscillator = audioCtx.createOscillator();
+        gainNode = audioCtx.createGain();
+
+        oscillator.type = "sine";
+        oscillator.frequency.value = 440; // phone-like tone
+        gainNode.gain.value = 0;
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.start();
+    }
+
+    function ringPulse(on) {
+        gainNode.gain.setValueAtTime(on ? 0.2 : 0, audioCtx.currentTime);
+    }
+
+    function startRinging() {
+        startRingTone();
+
+        ringInterval = setInterval(() => {
+            ringCount++;
+            statusText.textContent = "Ringing" + ".".repeat(ringCount % 4);
+
+            ringPulse(true);
+            setTimeout(() => ringPulse(false), 400);
+
+            if (ringCount === 6) {
+                stopRinging();
+                connectCall();
+            }
+        }, 800);
+    }
+
+    function stopRinging() {
+        clearInterval(ringInterval);
+        if (oscillator) {
+            oscillator.stop();
+            audioCtx.close();
+        }
+    }
+
+    function connectCall() {
+        statusText.textContent = "Connected";
+        timerText.style.display = "block";
+
+        callInterval = setInterval(() => {
+            seconds++;
+            let m = Math.floor(seconds / 60);
+            let s = seconds % 60;
+            timerText.textContent =
+                String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+        }, 1000);
+    }
+
+    cutBtn.onclick = () => {
+        clearInterval(callInterval);
+        stopRinging();
+        statusText.textContent = "Call Ended";
+        timerText.style.display = "none";
+    };
+
+    startRinging();
+</script>
+
 </body>
 </html>
