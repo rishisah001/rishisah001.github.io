@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* General Styles */
         body {
             background-color: #0d0d0d;
             color: #fff;
@@ -17,6 +18,7 @@
             padding: 0;
         }
 
+        /* Header Section */
         header {
             padding: 20px;
             background: linear-gradient(to right, #00ffff, #8000ff);
@@ -44,6 +46,10 @@
             text-align: left;
         }
 
+        h1, h2, p {
+            margin: 5px 0;
+        }
+
         h1 {
             font-size: 2.5rem;
             color: #00ffff;
@@ -59,6 +65,7 @@
             color: #fff;
         }
 
+        /* Navigation Bar */
         nav ul {
             list-style: none;
             padding: 0;
@@ -76,17 +83,19 @@
             color: #00ffff;
             text-decoration: none;
             font-size: 1.1rem;
+            transition: color 0.3s;
         }
 
         nav ul li a:hover {
             color: #8000ff;
         }
 
+        /* Sections */
         section {
             padding: 50px 20px;
         }
 
-        #about, #certifications {
+        #about {
             background: linear-gradient(to right, #0d0d0d, #1a1a1a);
         }
 
@@ -101,6 +110,10 @@
             line-height: 1.8;
         }
 
+        .about-content p {
+            margin-bottom: 20px;
+        }
+
         .highlight {
             color: #00ffff;
             font-weight: bold;
@@ -111,6 +124,7 @@
             animation: float 2s infinite ease-in-out;
         }
 
+        /* Social Icons */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -118,11 +132,22 @@
             margin-top: 20px;
         }
 
+        .social-icons a {
+            color: #fff;
+            text-decoration: none;
+        }
+
         .social-icons img {
             width: 40px;
             height: 40px;
+            transition: transform 0.3s;
         }
 
+        .social-icons img:hover {
+            transform: scale(1.2);
+        }
+
+        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -134,85 +159,53 @@
         }
     </style>
 </head>
-
 <body>
-
-<header>
-    <div class="profile-header">
-        <img src="profile-photo.png" alt="Rishikesh Sah" class="profile-photo">
-        <div class="header-text">
-            <h1>Hi!! Rishikesh Sah,</h1>
-            <h2>Welcome to my Portfolio !!!</h2>
-            <p>••• It's a digital Alchemist, turning ones and zeros into magic. •••</p>
+    <!-- Header Section -->
+    <header>
+        <div class="profile-header">
+            <img src="profile-photo.png" alt="Rishikesh Sah" class="profile-photo">
+            <div class="header-text">
+                <h1>Hi!! Rishikesh Sah,</h1>
+                <h2>Welcome to my Portfolio !!!</h2>
+                <p>••• It's a digital Alchemist, turning ones and zeros into magic. •••</p>
+            </div>
         </div>
-    </div>
-</header>
-
-<nav>
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="projects/projects.html">Projects</a></li>
-        <li><a href="#certifications">Certifications</a></li>
-        <li><a href="blog/blog.html">Blog</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
-</nav>
-
-<section id="about">
-    <h2>About Me</h2>
-    <div class="about-content">
-        <p>
-            I am an <span class="highlight">aspiring engineer</span> and <span class="highlight">continual learner</span>
-            with a deep passion for electronics, IoT, robotics, and AI.
-        </p>
-        <p>
-            With strong experience in <span class="highlight">Arduino, ESP32, and embedded systems</span>,
-            I focus on building practical solutions that solve real-world problems.
-        </p>
-        <p>
-            My ultimate goal is to enter the <span class="highlight">research field</span> and contribute
-            to cutting-edge technological advancements.
-        </p>
-        <p>
-            Currently a <span class="highlight">first-year undergraduate student</span>,
-            always pushing limits and converting ideas into reality. <span class="rocket">🚀</span>
-        </p>
-    </div>
-</section>
-
-<section id="certifications">
-    <h2>Certifications</h2>
-    <div class="about-content">
-        <p>
-            I strengthen my engineering foundation through certified learning programs focused on
-            <span class="highlight">electronics, embedded systems, and IoT</span>.
-        </p>
-
+    </header>
+    
+    <!-- Navigation Bar -->
+    <nav>
         <ul>
-            <li><span class="highlight">Arduino & Embedded Systems</span> – Online Certification</li>
-            <li><span class="highlight">Internet of Things (IoT)</span> – Automation & Connectivity</li>
-            <li><span class="highlight">Basic Electronics & Circuit Design</span></li>
-            <li><span class="highlight">Python for Engineers</span></li>
-            <li><span class="highlight">AI & Machine Learning Fundamentals</span></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects/projects.html">Projects</a></li>
+            <li><a href="index.html">Skills</a></li>
+            <li><a href="blog/blog.html">Blog</a></li>
+            <li><a href="index.html">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
         </ul>
-
-        <p>
-            These certifications reflect discipline, consistency, and readiness for advanced research work.
-        </p>
-    </div>
-</section>
-
-<section id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:rishisah250@gmail.com">rishisah250@gmail.com</a></p>
-    <div class="social-icons">
-        <a href="https://www.instagram.com/rishikesh.iot" target="_blank"><img src="instagram-icon.png"></a>
-        <a href="https://www.facebook.com/rishikesh.ai.ml" target="_blank"><img src="facebook-icon.png"></a>
-        <a href="https://www.tiktok.com/@rishikesh.iot" target="_blank"><img src="tiktok-icon.png"></a>
-        <a href="https://x.com/rishikesh_IoT" target="_blank"><img src="X-icon.png"></a>
-        <a href="https://www.linkedin.com/in/rishikesh-iot/" target="_blank"><img src="linkedin-icon.png"></a>
-    </div>
-</section>
-
+    </nav>
+    
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="about-content">
+            <p>I am an <span class="highlight">aspiring engineer</span> and <span class="highlight">continual learner</span> with a deep passion for electronics, IoT, robotics, and AI. From an early age, I was drawn to understanding how things work, leading me to develop expertise in electronics, electrical systems, and mechanical engineering. Over the years, I have worked on diverse projects, from circuit design and embedded systems to smart home automation and industrial applications.</p>
+            <p>With a strong foundation in <span class="highlight">Arduino, ESP32, and microcontroller-based systems</span>, I thrive on building, experimenting, and innovating. Whether it’s designing efficient power systems, developing automation solutions, or engineering IoT-based devices, I am always focused on practical applications that solve real-world problems. My projects often revolve around smart technology, embedded systems, and automation, where I aim to integrate intelligence into everyday life.</p>
+            <p>Beyond hands-on engineering, I have a keen interest in research and innovation, striving to explore new frontiers in electronics and advanced technologies. My ultimate goal is to contribute to the research field, developing cutting-edge solutions that shape the future of technology.</p>
+            <p>Currently, I am a <span class="highlight">first year undergraduate student</span>, always eager to learn, collaborate, and push boundaries transforming ideas into reality through creativity, technical skills, and relentless curiosity. <span class="rocket">🚀</span></p>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:rishisah250@gmail.com">rishisah250@gmail.com</a></p>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/rishikesh.iot" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
+            <a href="https://www.facebook.com/rishikesh.ai.ml" target="_blank"><img src="facebook-icon.png" alt="Facebook"></a>
+            <a href="https://www.tiktok.com/@rishikesh.iot" target="_blank"><img src="tiktok-icon.png" alt="TikTok"></a>
+            <a href="https://x.com/rishikesh_IoT" target="_blank"><img src="X-icon.png" alt="X"></a>
+            <a href="https://www.linkedin.com/in/rishikesh-iot/" target="_blank"><img src="linkedin-icon.png" alt="LinkedIn"></a>
+        </div>
+    </section>
 </body>
 </html>
